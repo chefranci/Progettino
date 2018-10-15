@@ -1,0 +1,20 @@
+.results {
+    font-family: Arial, Helvetica, sans-serif;
+    color:black;
+    font-size: 14px;
+}
+.table {
+    font-family: Arial, Helvetica, sans-serif;
+    position:relative;
+    margin-left: 10%;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 3 em;
+}
+th: {
+    text-align: left;
+}
