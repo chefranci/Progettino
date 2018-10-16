@@ -5,6 +5,9 @@ var app = angular.module ('progettino', []);
         $scope.Nome = "";
         $scope.Cognome = "";
         $scope.submitted = false;
+        $scope.filtered = false;
+        $scope.displayAlert= false;
+    
         $scope.persone = [
             {
                 "Nome" :"Francesca",
@@ -20,18 +23,27 @@ var app = angular.module ('progettino', []);
             },
         ]
         $scope.addElement = function(){
-            $scope.persone.push({
-            'Nome': $scope.Nome,
-            'Cognome': $scope.Cognome,
-            
-          });
+            if ($scope.Nome.length == 0 || $scope.Cognome.length == 0){
+                $scope.displayAlert= true;
+            } else {
+                $scope.displayAlert= false;
+                $scope.persone.push({
+                'Nome': $scope.Nome,
+                'Cognome': $scope.Cognome,
+            })
           $scope.submitted=true;
-          }
+        }};
           $scope.RemoveElement = function(index){
+            if ($scope.submitted){
+            $scope.persone.splice(index,1);}
+            else {
+                return false;
+            }         
+          };
 
-            $scope.persone.splice(index,1);
-          $scope.submitted=true;
+          $scope.filterElement = function(){
+              $scope.filtered= true;
           }
-
+          
     });
 

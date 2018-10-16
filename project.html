@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
-         
+         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
          <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
          
          <link rel="stylesheet" type="text/css" href="myStyle.css">
@@ -14,52 +14,74 @@
 
     <body>
 
-            <div ng-app="progettino">
-                <div ng-controller="lista">
+        <div ng-app="progettino">
+            <div class="container" ng-controller="lista">
                     <br>
                     <br>
-                    
-                    Nome : <input type="text" placeholder="Nome" ng-model="Nome">
-                    Cognome: <input type="text" placeholder="Cognome" ng-model="Cognome"><br><br>
-                    <button type="button" ng-click="addElement()">Submit</button>
-                    
-                    <div class="results" ng-if="submitted">
-                        <span>Il mio nome è {{ Nome + " " + Cognome }}</span><br><br>
+                <div class="row">
+                    <div class="col-lg-3">
+                     <div class="form-group">
+                        Nome : <input type="text" class="form-control" placeholder="Nome" ng-model="Nome">
+                        Cognome: <input type="text" class="form-control" placeholder="Cognome" ng-model="Cognome"><br><br>
+                        <button class= "button" type="button" ng-click="addElement()">Submit</button><br><br>
                     </div>
-                    <table class="table">
-                        <tr>
-                            <th>Nome</th>
-                            <th>Cognome</th>
-                            <th>Funzione</th>
-                        </tr>
-                        <tr ng-repeat="x in persone">
-                                <td>{{x.Nome}}</td>
-                                <td>{{x.Cognome}}</td>
-                                <td><button type="button" ng-click="RemoveElement($index)">Delete</button></td>
-                         </tr>
-                    </table>
-                    
-                
+                        <div class="card" style="width: 18rem; background-color: lightgoldenrodyellow" ng-if="submitted">
+                                <img class="card-img-top" src="http://www.pngmart.com/files/4/Party-PNG-Transparent.png" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Congratulations!</h5>
+                                    <h6 class="card-text">Welcome to our Community</h6>
+                                    <p>Click on the button to sign up</p>
+                                    <a href="#" class="btn btn-primary">Sign up</a>
+                                </div>
+                        </div>
+                        
+                        <div class="alert alert-danger" role="alert" ng-if="displayAlert">
+                                <h4 class="alert-heading">Oops, something went wrong!</h4>
+                                <p>Completare tutti i campi necessari!</p>
+                         </div>
+                    </div>
+                   
+
+                    <!-- TABELLA -->
+                    <div class="col-lg-6">
+                        <table class="table table-bordered" >
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Cognome</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <tr ng-repeat="x in persone" ng-class="{'txt_when_not_submitted': submitted==false}" >
+                                        <td>{{x.Nome}}</td>
+                                        <td>{{x.Cognome}}</td>
+                                        <td><button class="buttonDelete" type="button" ng-click="RemoveElement()">Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                     </div>
                 </div>
-                
     
-               
-               
-               
-               
-               
-                 <!-- <div ng-init="names=[
-                    {name:'Jani',country:'Norway'},
-                    {name:'Hege',country:'Sweden'},
-                    {name:'Kai',country:'Denmark'}]">
-                
-                    <p>Looping with objects:</p>
-                    <ul>
-                         <li ng-repeat="x in names">
-                        {{ x.name + ', ' + x.country }}</li>
-                    </ul>
-                 </div> -->
+                <div class="modulo_filtro">
+                        <br><br>
+                        <p>Search if any of your friends are in our community</p>
+                        <p><input type="text" ng-model="test" ></p>
+                        <button class="button" type="button" ng-click="filterElement()" >OK</button>
+                    
+                        <ul ng-if="filtered">
+                            <li ng-repeat="y in persone | filter:test">
+                                {{y.Nome}}
+                                {{y.Cognome}}
+                            </li>
+                         <ul>
+                  
+                    
+                </div>
             </div>
+            
+        </div>
                     
                     
                     
